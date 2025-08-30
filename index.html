@@ -12,9 +12,20 @@
                 <h1>Lista de Pokemones</h1>
             </div>
             <div>
-                <form>
-                    <button>Activar la lista</button>
-                    <input>
+                <form name="list">
+                    <div>
+                    <label>Nombre del pokemon:</label>
+                    <input id="name" name="name" type="text">
+                    <label>Tipo del pokemon</label>
+                    <select id="type" name="type">
+                        <option>Fuego</option>
+                        <option>Agua</option>
+                        <option>Hielo</option>
+                    </select>
+                    <div>
+                    <button name="activar">Buscar</button>
+                    </div>
+                    </div>
                 </form>
             </div>
         </article>
