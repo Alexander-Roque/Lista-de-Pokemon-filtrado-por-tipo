@@ -9,6 +9,7 @@ form.addEventListener("submit", async function getPokemon(event) {
         const response = await fetch(`${URL}/pokemon/${pokemon}`)
         if (!response.ok) throw new Error("Pokémon no encontrado")
         const pokemonData = await response.json()
+    
 
         for (const namePokemon of pokemonData.results) {
             const URL = namePokemon.url
@@ -22,13 +23,9 @@ form.addEventListener("submit", async function getPokemon(event) {
                 const response = await fetch (URL)
                 const pokeTypeData = await response.json()
                 const imgUrl = pokeTypeData.sprites["generation-viii"]["sword-shield"].name_icon
-                // console.log(types)
-                // if (types.slot ==! 1){
-                //     createCard (pokeDataIntert, pokeTypeData)
-                // }
                 typesData[types.slot - 1] = {name: nameType, img: imgUrl}
-                createCard(pokeDataIntert, typesData)
             }
+            createCard(pokeDataIntert, typesData)
         }
     } catch (error){
         console.error(error)
