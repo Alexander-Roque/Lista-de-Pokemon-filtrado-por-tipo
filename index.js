@@ -61,22 +61,28 @@ function createCard (pokemon, typesData){
 
     const title = document.createElement ("p")
     title.textContent = pokemon.name
+    title.classList.add ("titleCard")
 
     const imagen = document.createElement ("img")
     imagen.src = pokemon.sprites.front_default
+    imagen.classList.add ("imagenCard")
     
     typesData.forEach(typeObj => {
         if (typeObj) {
-            const type = document.createElement("p")
-            type.textContent = typeObj.name
+            // const type = document.createElement("p")
+            // type.textContent = typeObj.name
+            // type.classList.add ("typeCard")
+
             const typeImg = document.createElement("img")
             typeImg.src = typeObj.img
-            card.appendChild(type)
-            card.appendChild(typeImg)
+            typeImg.classList.add ("typeImgCard")
+            
+            // card.append (type)
+            card.append (typeImg)
         }
     })
-    card.appendChild (title);
-    card.appendChild (imagen);
+    card.prepend (title);
+    card.prepend (imagen);
 
     const articleContainer = document.querySelector (".containerPokemon")
     if(articleContainer){

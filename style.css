@@ -5,7 +5,7 @@ html, body{
     width: 100%;
 }
 body{
-    background-color: darkslategrey;
+    background-color: darkblue;
 }
 
 .container{
@@ -44,16 +44,46 @@ body{
     font-weight: 700;
     color: white;
 }
-.textType, h1{
+h1{
     font-weight: 700;
+    color: white;
     font-size: 2rem;
+}
+.textType{
+    font-weight: 500;
     color: white;
 }
 .search{
     padding: 1rem 3rem;
     border-radius: 1rem;
     font-weight: 700;
-    font-size: 1.2rem;
     background-color: red;
     color: white;
+}
+.containerPokemon{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.pokemon-card{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(192, 27, 27);
+    border-radius: 1rem;
+    margin: 1rem;
+    padding: 1rem;
+}
+.titleCard {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+.imagenCard {
+    width: 15rem;
+    background-color: lightskyblue;
+    border-radius: 1rem;
+}
+.typeImgCard{
+    margin: 1rem;
 }
