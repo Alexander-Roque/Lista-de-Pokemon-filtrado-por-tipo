@@ -1,0 +1,59 @@
+html, body{
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+body{
+    background-color: darkslategrey;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+    margin: 1rem;
+    gap: 3rem;
+}
+.container-article{
+    display: flex;
+    flex-direction: column;
+}
+.conteinerColorForm{
+    background-color: white;
+    padding: 1.5rem 8rem;
+    border-radius: 1rem;
+}
+.container-title{
+    text-align: center;
+}
+.container-formulario{
+    display: flex;
+    gap: 3rem;
+}
+.typeTitle{
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: darkblue;
+}
+.typeSelect{
+    padding: 1rem 2rem;
+    background-color: red;
+    border-radius: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+.textType, h1{
+    font-weight: 700;
+    font-size: 2rem;
+    color: white;
+}
+.search{
+    padding: 1rem 3rem;
+    border-radius: 1rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+    background-color: red;
+    color: white;
+}

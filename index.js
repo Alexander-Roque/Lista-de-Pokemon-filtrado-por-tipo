@@ -78,5 +78,8 @@ function createCard (pokemon, typesData){
     card.appendChild (title);
     card.appendChild (imagen);
 
-    document.body.appendChild (card)
+    const articleContainer = document.querySelector (".containerPokemon")
+    if(articleContainer){
+        articleContainer.append(card)
+    }
 }
