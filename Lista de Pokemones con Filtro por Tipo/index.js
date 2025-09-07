@@ -1,6 +1,29 @@
 const form = document.forms.list
 let searchId = 0
 
+let pokemonData = []
+
+async function pokemon() {
+    const URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
+    const response = await fetch(`${URL}/pokemon/`)
+    if (!response.ok) throw new Error("Pokémon no encontrado")
+    pokemonData = await response.json()
+
+    for (const namePokemon of pokemonData.results) {
+            
+            if(currentSearch !== searchId) return
+            
+            const URL = namePokemon.url
+            const response = await fetch(URL)
+            const pokeDataIntert = await response.json()
+            const typesData = []
+}
+try {
+    pokemon()
+} catch (error) {
+    console.error
+}
+
 form.addEventListener("submit", async function getPokemon(event) {
     event.preventDefault()
     searchId++
@@ -8,15 +31,15 @@ form.addEventListener("submit", async function getPokemon(event) {
 
     // document.querySelectorAll(".pokemon-card"),forEach(card => card.remove())
 
-    try{
+    
         const formData = new FormData(form)
-        const pokemon = formData.get("name")
+        // const pokemon = formData.get("name")
         const selectedType = formData.get("type")
 
-        const URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
-        const response = await fetch(`${URL}/pokemon/${pokemon}`)
-        if (!response.ok) throw new Error("Pokémon no encontrado")
-        const pokemonData = await response.json()
+        // const URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
+        // const response = await fetch(`${URL}/pokemon/`)
+        // if (!response.ok) throw new Error("Pokémon no encontrado")
+        // const pokemonData = await response.json()
 
         for (const namePokemon of pokemonData.results) {
             
@@ -43,9 +66,7 @@ form.addEventListener("submit", async function getPokemon(event) {
             }
             createCard(pokeDataIntert, typesData)
         }
-    } catch (error){
-        console.error(error)
-    }
+    
 })
 
 const TypeSelectChange = document.getElementById ("type")
