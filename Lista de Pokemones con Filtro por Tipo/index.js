@@ -6,58 +6,61 @@ async function fetchPokemon(){
     const formData = new FormData(form)
         const selectedType = formData.get("type")
 
-        const URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
+        const URL = "https://pokeapi.co/api/v2/pokemon?limit="
         const response = await fetch(`${URL}/pokemon`)
         if (!response.ok) throw new Error("Pokémon no encontrado")
         const pokemonData = await response.json()
     return pokemonData
 }
 
-async function filterByType(pokemonData) {
+async function pokemonDataInt(pokemonData) {
+    const allPokemonDetails = []
 for (const namePokemon of pokemonData.results){
     const URL = namePokemon.url
     const response = await fetch(URL)
     const pokeDataIntert = await response.json()
-
-    const typesData = []
-
-    for (const types of pokeDataIntert.types) {
-            const nameType = types.type.name
-            const URL = types.type.url
-
-            const response = await fetch (URL)
-            const pokeTypeData = await response.json()
-
-        }  
-        return {pokeDataIntert, typesData}
+    allPokemonDetails.push(pokeDataIntert)
     }
+    return allPokemonDetails
 }
 
-fetchPokemon().then(pokemonData => {
-    globalPokemonData = pokemonData;
-}).catch(error=>{
-    console.error(error)
-});
+async function filterByType(pokeDataIntert){
+    const typesData = []
+    for (const types of pokeDataIntert.types ){
+
+        const nameType = types.type.name
+        const URL = types.type.url
+
+        const response = await fetch (URL)
+        const pokeTypeData = await response.json()
+
+        typesData.push({name: nameType, url: URL})
+    }
+    return typesData
+}
+
 
 form.addEventListener("submit", async (event)=> {
     event.preventDefault()
     try {
         const allPokemon = await fetchPokemon()
-        const data = await filterByType(globalPokemonData)
-        console.log (data)
-        console.log(allPokemon)
+        const allDataInter = await pokemonDataInt(allPokemon)
+        // const data = await filterByType(allDataInter)
+
+        for (const pokemones of allDataInter){
+            createCard (pokemones)
+        }
+        // console.log (data)
+        // console.log(allPokemon)
+
+        // primero hay que hacer que funcione la lista de tipos
+        // segundo filtra el tipo de pokemon
+        // mejorar el diseño y borrar las cosas innesesarias
     }catch (error) {
         console.error(error);
     }
-    
-    // searchId++
-    // const currentSearch = searchId
-
-    // document.querySelectorAll(".pokemon-card"),forEach(card => card.remove())
-            // if(currentSearch !== searchId) return
-            
-            // createCard(pokeDataIntert, typesData)
  })
+
 
 const TypeSelectChange = document.getElementById ("type")
 
@@ -66,9 +69,9 @@ TypeSelectChange.addEventListener("change", ()=>{
     searchId++
 })
 
-function createCard (pokemon, typesData){
+function createCard (pokemon){
     const card = document.createElement ("div")
-    card.classList.add ("pokemon-card")
+    card.classList.add ("pokemonCard")
 
     const title = document.createElement ("p")
     title.textContent = pokemon.name
@@ -78,20 +81,20 @@ function createCard (pokemon, typesData){
     imagen.src = pokemon.sprites.front_default
     imagen.classList.add ("imagenCard")
     
-    typesData.forEach(typeObj => {
-        if (typeObj) {
-            // const type = document.createElement("p")
-            // type.textContent = typeObj.name
-            // type.classList.add ("typeCard")
+    // typesData.forEach(typeObj => {
+    //     if (typeObj) {
+    //         // const type = document.createElement("p")
+    //         // type.textContent = typeObj.name
+    //         // type.classList.add ("typeCard")
 
-            const typeImg = document.createElement("img")
-            typeImg.src = typeObj.img
-            typeImg.classList.add ("typeImgCard")
+    //         const typeImg = document.createElement("img")
+    //         typeImg.src = typeObj.img
+    //         typeImg.classList.add ("typeImgCard")
             
-            // card.append (type)
-            card.append (typeImg)
-        }
-    })
+    //         // card.append (type)
+    //         card.append (typeImg)
+    //     }
+    // })
     card.prepend (title);
     card.prepend (imagen);
 
