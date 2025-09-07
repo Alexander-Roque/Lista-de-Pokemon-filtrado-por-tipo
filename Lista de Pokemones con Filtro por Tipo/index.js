@@ -1,104 +1,63 @@
 const form = document.forms.list
 let searchId = 0
+let globalPokemonData;
 
 async function fetchPokemon(){
     const formData = new FormData(form)
         const selectedType = formData.get("type")
 
         const URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
-        const response = await fetch(`${URL}/pokemon/`)
+        const response = await fetch(`${URL}/pokemon`)
         if (!response.ok) throw new Error("Pokémon no encontrado")
         const pokemonData = await response.json()
     return pokemonData
 }
 
-fetchPokemon().then(pokemonData => {
-    async function filterByType() {
-    for (const namePokemon of pokemonData.results){
-        const URL = namePokemon.url
-        const response = await fetch(URL)
-        const pokeDataIntert = await response.json()
+async function filterByType(pokemonData) {
+for (const namePokemon of pokemonData.results){
+    const URL = namePokemon.url
+    const response = await fetch(URL)
+    const pokeDataIntert = await response.json()
 
-        const typesData = []
+    const typesData = []
 
-        //  if (selectedType){
-        //         const hasType = pokeDataIntert.types.some(t => t.type.name === selectedType)
-        //         if (!hasType) continue
-        //     }
+    for (const types of pokeDataIntert.types) {
+            const nameType = types.type.name
+            const URL = types.type.url
 
-        for (const types of pokeDataIntert.types) {
-                const nameType = types.type.name
-                const URL = types.type.url
+            const response = await fetch (URL)
+            const pokeTypeData = await response.json()
 
-                const response = await fetch (URL)
-                const pokeTypeData = await response.json()
-
-                const imgUrl = pokeTypeData.sprites["generation-viii"]["sword-shield"].name_icon
-                
-                typesData[types.slot - 1] = {name: nameType, img: imgUrl}
-            }
-            // createCard(pokeDataIntert, typesData)    
-            return {pokeDataIntert, typesData}
-        }
+        }  
+        return {pokeDataIntert, typesData}
     }
+}
 
-    filterByType().then(data =>{
-        console.log(data)
-    });
-    
+fetchPokemon().then(pokemonData => {
+    globalPokemonData = pokemonData;
 }).catch(error=>{
     console.error(error)
 });
 
-
-
-
-form.addEventListener("submit", async function getPokemon(event) {
+form.addEventListener("submit", async (event)=> {
     event.preventDefault()
-    searchId++
-    const currentSearch = searchId
+    try {
+        const allPokemon = await fetchPokemon()
+        const data = await filterByType(globalPokemonData)
+        console.log (data)
+        console.log(allPokemon)
+    }catch (error) {
+        console.error(error);
+    }
+    
+    // searchId++
+    // const currentSearch = searchId
 
     // document.querySelectorAll(".pokemon-card"),forEach(card => card.remove())
-
-    try{
-        // const formData = new FormData(form)
-        // const pokemon = formData.get("name")
-        // const selectedType = formData.get("type")
-
-        // const URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
-        // const response = await fetch(`${URL}/pokemon/${pokemon}`)
-        // if (!response.ok) throw new Error("Pokémon no encontrado")
-        // const pokemonData = await response.json()
-
-        for (const namePokemon of pokemonData.results) {
+            // if(currentSearch !== searchId) return
             
-            if(currentSearch !== searchId) return
-            
-            const URL = namePokemon.url
-            const response = await fetch(URL)
-            const pokeDataIntert = await response.json()
-            const typesData = []
-
-            if (selectedType){
-                const hasType = pokeDataIntert.types.some(t => t.type.name === selectedType)
-                if (!hasType) continue
-            }
-
-
-            for (const types of pokeDataIntert.types) {
-                const nameType = types.type.name
-                const URL = types.type.url
-                const response = await fetch (URL)
-                const pokeTypeData = await response.json()
-                const imgUrl = pokeTypeData.sprites["generation-viii"]["sword-shield"].name_icon
-                typesData[types.slot - 1] = {name: nameType, img: imgUrl}
-            }
-            createCard(pokeDataIntert, typesData)
-        }
-    } catch (error){
-        console.error(error)
-    }
-})
+            // createCard(pokeDataIntert, typesData)
+ })
 
 const TypeSelectChange = document.getElementById ("type")
 
