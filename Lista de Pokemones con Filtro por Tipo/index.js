@@ -6,8 +6,8 @@ async function fetchPokemon(){
     const formData = new FormData(form)
         const selectedType = formData.get("type")
 
-        const URL = "https://pokeapi.co/api/v2/pokemon?limit="
-        const response = await fetch(`${URL}/pokemon`)
+        const URL = "https://pokeapi.co/api/v2/pokemon?limit=20&offset=0"
+        const response = await fetch(`${URL}`)
         if (!response.ok) throw new Error("Pokémon no encontrado")
         const pokemonData = await response.json()
     return pokemonData
@@ -26,7 +26,7 @@ for (const namePokemon of pokemonData.results){
 
 async function filterByType(pokeDataIntert){
     const typesData = []
-    for (const types of pokeDataIntert.types ){
+    for (const types of pokeDataIntert.types){
 
         const nameType = types.type.name
         const URL = types.type.url
@@ -34,7 +34,9 @@ async function filterByType(pokeDataIntert){
         const response = await fetch (URL)
         const pokeTypeData = await response.json()
 
-        typesData.push({name: nameType, url: URL})
+        const imgUrl = pokeTypeData.sprites["generation-viii"]["sword-shield"].name_icon
+
+        typesData.push({name: nameType, url: imgUrl})
     }
     return typesData
 }
@@ -45,17 +47,12 @@ form.addEventListener("submit", async (event)=> {
     try {
         const allPokemon = await fetchPokemon()
         const allDataInter = await pokemonDataInt(allPokemon)
-        // const data = await filterByType(allDataInter)
 
         for (const pokemones of allDataInter){
-            createCard (pokemones)
-        }
-        // console.log (data)
-        // console.log(allPokemon)
+            const types = await filterByType(pokemones)
 
-        // primero hay que hacer que funcione la lista de tipos
-        // segundo filtra el tipo de pokemon
-        // mejorar el diseño y borrar las cosas innesesarias
+            createCard (pokemones, types)
+        }
     }catch (error) {
         console.error(error);
     }
@@ -64,12 +61,12 @@ form.addEventListener("submit", async (event)=> {
 
 const TypeSelectChange = document.getElementById ("type")
 
-TypeSelectChange.addEventListener("change", ()=>{
-    document.querySelectorAll (".pokemon-card").forEach(card => card.remove())
-    searchId++
-})
+// TypeSelectChange.addEventListener("change", ()=>{
+//     document.querySelectorAll (".pokemon-card").forEach(card => card.remove())
+//     searchId++
+// })
 
-function createCard (pokemon){
+function createCard (pokemon, types){
     const card = document.createElement ("div")
     card.classList.add ("pokemonCard")
 
@@ -81,20 +78,21 @@ function createCard (pokemon){
     imagen.src = pokemon.sprites.front_default
     imagen.classList.add ("imagenCard")
     
-    // typesData.forEach(typeObj => {
-    //     if (typeObj) {
-    //         // const type = document.createElement("p")
-    //         // type.textContent = typeObj.name
-    //         // type.classList.add ("typeCard")
+    types.forEach(t => {
+        
+        const type = document.createElement("p")
+        type.textContent = t.name
+        type.classList.add ("typeCard")
+    
+        const typeImg = document.createElement("img")
+        typeImg.src = t.url
+        typeImg.classList.add ("typeImgCard")
+    
+        card.append (type)
+        card.append (typeImg)
 
-    //         const typeImg = document.createElement("img")
-    //         typeImg.src = typeObj.img
-    //         typeImg.classList.add ("typeImgCard")
-            
-    //         // card.append (type)
-    //         card.append (typeImg)
-    //     }
-    // })
+    });
+
     card.prepend (title);
     card.prepend (imagen);
 
