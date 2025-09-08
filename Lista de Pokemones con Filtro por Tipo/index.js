@@ -29,7 +29,7 @@ async function fetchPokemon(){
     const formData = new FormData(form)
         const selectedType = formData.get("type")
 
-        const URL = "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
+        const URL = "https://pokeapi.co/api/v2/pokemon?limit=50&offset=0"
         const response = await fetch(`${URL}`)
         if (!response.ok) throw new Error("Pokémon no encontrado")
         const pokemonData = await response.json()
