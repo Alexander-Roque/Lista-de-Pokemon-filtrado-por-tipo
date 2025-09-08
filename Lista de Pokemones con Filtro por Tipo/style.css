@@ -74,16 +74,17 @@ h1{
     margin: 1rem;
     padding: 1rem;
 }
-.titleCard {
+.title-card,
+.type-card {
     font-size: 1.5rem;
     font-weight: 700;
     color: white;
 }
-.imagenCard {
+.imagen-card {
     width: 15rem;
     background-color: lightskyblue;
     border-radius: 1rem;
 }
-.typeImgCard{
+.type-img-card{
     margin: 1rem;
 }
