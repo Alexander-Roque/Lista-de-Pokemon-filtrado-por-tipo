@@ -43,7 +43,6 @@ for (const namePokemon of pokemonData.results){
     const response = await fetch(URL)
     const pokeDataIntert = await response.json()
     allPokemonDetails.push(pokeDataIntert)
-    console.log(pokeDataIntert)
     }
     return allPokemonDetails
 }
@@ -76,6 +75,7 @@ form.addEventListener("submit", async (event)=> {
 
         const allPokemon = await fetchPokemon()
         const allDataInter = await pokemonDataInt(allPokemon)
+        console.log(allDataInter)
 
         for (const pokemones of allDataInter){
             const types = await filterByType(pokemones)

@@ -62,7 +62,10 @@ type pokemonDetailType = {
             name: string,
             url: string,
         }
-    }[]
+    }[],
+    sprites:{
+        front_default: string,
+    }
 }
 
 type pokemonDataIntType = pokemonDetailType[]
@@ -81,7 +84,12 @@ for (const namePokemon of pokemonData.results){
 
 // continuar desde aqui
 
-async function filterByType(pokeDataIntert){
+type filterByTypeArray = {
+    name: string,
+    url: string
+}
+
+async function filterByType(pokeDataIntert:pokemonDetailType):Promise<filterByTypeArray[]>{
     const typesData = []
     for (const types of pokeDataIntert.types){
 
@@ -101,11 +109,11 @@ async function filterByType(pokeDataIntert){
 form.addEventListener("submit", async (event)=> {
     event.preventDefault()
     try {
-        const articleContainer = document.querySelector (".containerPokemon")
+        const articleContainer = document.querySelector ("#container-pokemon")!
         articleContainer.innerHTML = ""
 
         const formData = new FormData(form)
-        const selectedType = formData.get("type")
+        const selectedType = formData.get("type")!
 
         const allPokemon = await fetchPokemon()
         const allDataInter = await pokemonDataInt(allPokemon)
@@ -123,9 +131,10 @@ form.addEventListener("submit", async (event)=> {
  })
 
 
-const TypeSelectChange = document.getElementById ("type")
+const TypeSelectChange = document.getElementById ("type") as HTMLSelectElement;
 
-function createCard (pokemon, types){
+
+function createCard (pokemon:pokemonDetailType, types:filterByTypeArray[]){
     const card = document.createElement ("div")
     card.classList.add ("pokemon-card")
 
