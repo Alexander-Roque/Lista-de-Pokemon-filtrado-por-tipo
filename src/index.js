@@ -43,6 +43,7 @@ for (const namePokemon of pokemonData.results){
     const response = await fetch(URL)
     const pokeDataIntert = await response.json()
     allPokemonDetails.push(pokeDataIntert)
+    console.log(pokeDataIntert)
     }
     return allPokemonDetails
 }
